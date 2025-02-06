@@ -19,7 +19,7 @@ spec:
   - name: cluster-api-provider-openstack
   - name: cluster-api-provider-vsphere
   - name: projectsveltos
-release: kcm-0-0-7
+release: kcm-0-1-0
 ```
 
 As you can see, the `Management` object defines the providers that are available from within k0rdent. Some of these are
@@ -27,8 +27,7 @@ providers directly used by the user, such as aws, azure, and so on, and others a
 by k0rdent, such as Sveltos.
 
 To see what is included in a specific release, look at the `release.yaml` file in the tagged release.
-For example, here is the [v0.0.7 release.yaml](https://github.com/k0rdent/kcm/releases/download/v0.0.7/release.yaml).
-
+For example, here is the [v0.1.0 release.yaml](https://github.com/k0rdent/kcm/releases/download/v0.1.0/release.yaml).
 
 k0rdent allows you to customize its default configuration by modifying the spec of the `Management` object.
 This enables you to manage the list of providers to deploy and adjust the default settings for core components.
@@ -43,10 +42,10 @@ There are two options to override the default management configuration of k0rden
 
     `kubectl --kubeconfig <path-to-management-kubeconfig> edit management`
 
-2. Deploy k0rdent skipping the default `Management` object creation and provide your
+2. Deploy k0rdent while skipping the default `Management` object creation, then provide your
    own `Management` configuration:
 
-    - Create `management.yaml` file and configure core components and providers.
+    - Create the `management.yaml` file and configure core components and providers.
       For example:
 
            ```yaml
@@ -65,7 +64,7 @@ There are two options to override the default management configuration of k0rden
              - name: k0smotron
              - name: cluster-api-provider-aws
              - name: projectsveltos
-           release: kcm-0-0-7
+           release: kcm-0-1-0
            ```
       In the example above, the `Management` object is configured with custom registry settings for the KCM controller
       and a reduced list of providers.
@@ -88,8 +87,8 @@ You can customize the default configuration options for core components by updat
 `.spec.core.<core-component-name>.config` section in the `Management` object. For example, to override the default
 settings for the KCM component, modify the `spec.core.kcm.config` section. To view the complete list of configuration
 options available for kcm, refer to:
-[KCM Configuration Options for k0rdent v0.0.7](https://github.com/k0rdent/kcm/blob/v0.0.7/templates/provider/kcm/values.yaml)
-(Replace v0.0.7 with the relevant release tag for other k0rdent versions).
+[KCM Configuration Options for k0rdent v0.1.0](https://github.com/k0rdent/kcm/blob/v0.0.7/templates/provider/kcm/values.yaml)
+(Replace v0.1.0 with the relevant release tag for other k0rdent versions).
 
 To customize the list of providers to deploy, update the `.spec.providers` section. You can add or remove providers
 and configure custom templates for each provider. Each provider in the list must include the `name` field
@@ -124,7 +123,7 @@ spec:
           registryCredsSecret: my-private-oci-registry-creds
 ```
 
-Example of a Secret with Registry Credentials:
+Example of a `Secret` with Registry Credentials:
 
 ```yaml
 apiVersion: v1
@@ -173,6 +172,6 @@ spec:
       config:
         image:
           repository: ghcr.io/my-custom-repo/kcm/controller
-          tag: v0.0.7
+          tag: v0.1.0
           pullPolicy: IfNotPresent
 ```
