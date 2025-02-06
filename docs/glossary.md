@@ -40,24 +40,24 @@ specific infrastructure provider.
 A Kubernetes cluster created and managed by k0rdent.
 
 ## ClusterIdentity
-ClusterIdentity is a Kubernetes object that references a Secret object containing 
+`ClusterIdentity` is a Kubernetes object that references a `Secret` object containing 
 credentials for a specific infrastructure provider.
 
 ## Credential
-A `Credential` is a custom resource (CR) in kcm that supplies k0rdent with the necessary 
-credentials to manage a specific infrastructure. The credential object references other 
+A `Credential` is a custom resource (CR) in KCM that supplies k0rdent with the necessary 
+credentials to manage a specific infrastructure. The `Credential` object references other 
 CRs with infrastructure-specific credentials such as access keys, passwords, 
-certificates, etc. This means that a credential is specific to the CAPI provider that 
+certificates, and so on. This means that a `Credential` is specific to the CAPI provider that 
 uses it.
 
-## k0rdent Cluster Manager (kcm)
+## k0rdent Cluster Manager (KCM)
 Deployment and life-cycle management of Kubernetes clusters, including configuration, 
 updates, and other CRUD operations.
 
-## k0rdent Observability and FinOps (kof)
+## k0rdent Observability and FinOps (KOF)
 Cluster and beach-head services monitoring, events and log management.
 
-## k0rdent State Manager (ksm)
+## k0rdent State Manager (KSM)
 Installation and life-cycle management of beach-head services, policy, Kubernetes API 
 configurations and more.
 
@@ -67,7 +67,7 @@ Instead of running the control plane components (like the API server, controller
 manager, and etcd) within the same cluster as the worker nodes, the control plane is 
 hosted on a separate, often centralized, infrastructure. This approach can provide 
 benefits such as easier management, improved security, and better resource utilization, 
-as the control plane can be scaled independently of the worker nodes.
+as the control plane can be scaled independently of the worker nodes, and vice versa.
 
 ## Infrastructure provider (see also [CAPI provider](#capi-provider-see-also-infrastructure-provider))
 An infrastructure provider (aka `InfrastructureProvider`) is a Kubernetes custom 
