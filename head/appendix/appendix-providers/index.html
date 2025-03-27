@@ -3018,9 +3018,9 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#examples_1" class="md-nav__link">
+  <a href="#configuration-examples" class="md-nav__link">
     <span class="md-ellipsis">
-      Examples
+      Configuration Examples
     </span>
   </a>
   
@@ -3245,9 +3245,9 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#examples_1" class="md-nav__link">
+  <a href="#configuration-examples" class="md-nav__link">
     <span class="md-ellipsis">
-      Examples
+      Configuration Examples
     </span>
   </a>
   
@@ -3310,9 +3310,11 @@
 </ol>
 <p>In both cases <code>ConfigMap</code> with template code is used to render configuration into child clusters.</p>
 <h3 id="credential-resource">Credential Resource<a class="headerlink" href="#credential-resource" title="Permanent link">#</a></h3>
-<p>The <code>Credential</code> resource provides an abstraction layer by either:
-- Referencing a <code>ClusterIdentity</code> through <code>identityRef</code>
-- Directly referencing a <code>Secret</code>, depending on the pattern used</p>
+<p>The <code>Credential</code> resource provides an abstraction layer by either:</p>
+<ul>
+<li>Referencing a <code>ClusterIdentity</code> through <code>identityRef</code></li>
+<li>Directly referencing a <code>Secret</code>, depending on the pattern used</li>
+</ul>
 <h3 id="template-configmap">Template ConfigMap<a class="headerlink" href="#template-configmap" title="Permanent link">#</a></h3>
 <ul>
 <li>Marked with <code>projectsveltos.io/template: "true"</code> annotation</li>
@@ -3323,10 +3325,12 @@
 <li>The object name needs to follow a predictable naming pattern, such as the <code>ClusterIdentity</code> object (referenced via <code>identityRef</code> in the <code>Credential</code> resource) name + <code>-resource-template</code> suffix. It must also be placed in same Namespace as the <code>ClusterIdentity</code> object it references</li>
 </ul>
 <h2 id="templating-system">Templating System<a class="headerlink" href="#templating-system" title="Permanent link">#</a></h2>
-<p>The templating system leverages:
-- <a href="https://pkg.go.dev/text/template">Golang templating</a>
-- <a href="https://masterminds.github.io/sprig">Sprig functions</a>
-- <a href="https://projectsveltos.github.io/sveltos/template/intro_template/#:~:text=Resource%20Manipulation-,functions,-Sveltos%20provides%20a">Sveltos resource manipulation functions</a></p>
+<p>The templating system leverages:</p>
+<ul>
+<li><a href="https://pkg.go.dev/text/template">Golang templating</a></li>
+<li><a href="https://masterminds.github.io/sprig">Sprig functions</a></li>
+<li><a href="https://projectsveltos.github.io/sveltos/template/intro_template/#:~:text=Resource%20Manipulation-,functions,-Sveltos%20provides%20a">Sveltos resource manipulation functions</a></li>
+</ul>
 <h3 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">#</a></h3>
 <p>Provider-specific examples are available in <code>*.credentials.yaml</code> files <a href="https://github.com/k0rdent/kcm/tree/main/config/dev">here</a>.</p>
 <p>Let's take <code>Azure</code> provider as an example <a href="https://github.com/k0rdent/kcm/blob/v0.1.0/config/dev/azure-credentials.yaml">azure-credentials.yaml</a></p>
@@ -3344,7 +3348,7 @@ These examples assume the <code>ConfigMap</code> is included in a template. To u
 </div>
 <h2 id="provider-registration">Provider Registration<a class="headerlink" href="#provider-registration" title="Permanent link">#</a></h2>
 <p>Providers are registered through YAML configuration files mounted into a <a href="https://github.com/k0rdent/kcm/blob/v0.1.0/templates/provider/kcm/templates/deployment.yaml#L42-L43">predefined path</a> in the manager container at startup <a href="https://github.com/k0rdent/kcm/blob/v0.1.0/templates/provider/kcm/templates/providers.yaml">using <code>ConfigMap</code></a>.</p>
-<h3 id="examples_1">Examples<a class="headerlink" href="#examples_1" title="Permanent link">#</a></h3>
+<h3 id="configuration-examples">Configuration Examples<a class="headerlink" href="#configuration-examples" title="Permanent link">#</a></h3>
 <p>Provider configuration examples can be found <a href="https://github.com/k0rdent/kcm/tree/v0.1.0/providers">here</a></p>
 <p>Let's take <code>Azure</code> provider as an example <a href="https://github.com/k0rdent/kcm/blob/v0.1.0/providers/azure.yml">azure.yml</a>, as seen, the definition is straightforward.</p>
 
