@@ -3094,14 +3094,24 @@
 <h1 id="management-backup-on-demand">Management Backup on Demand<a class="headerlink" href="#management-backup-on-demand" title="Permanent link">#</a></h1>
 <p>To create a single backup of the existing k0rdent management cluster information, you can create a <code>ManagementBackup</code> object
 using a YAML document and the <code>kubectl</code> CLI. The object then creates only one instance of a backup. For example you can backup
-to the location created earlier:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">k0rdent.mirantis.com/v1alpha1</span>
+to the location created <a href="../scheduled-backups/#preparation">previously</a>. Create a YAML file called <code>one-time-backup.yaml</code>:</p>
+<p><div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">k0rdent.mirantis.com/v1alpha1</span>
 <span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ManagementBackup</span>
 <span class="nt">metadata</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">example-backup</span>
 <span class="nt">spec</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">storageLocation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws-s3</span>
 </code></pre></div>
+Create a one time backup of your k0rdent cluster by applying the YAML to the cluster:
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>one-time-backup.yaml
+</code></pre></div>
+Confirm the backup was successful by navigating to the appropriate storage console UI or from the command line:
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>managementbackup
+</code></pre></div>
+The <code>managementbackup</code> should show as <code>Completed</code>:
+<div class="highlight"><pre><span></span><code>NAME              LASTBACKUPSTATUS   NEXTBACKUP   AGE
+example-backup    Completed                       8m
+</code></pre></div></p>
 
 
 
