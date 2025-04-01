@@ -20,7 +20,7 @@
     
     
       
-        <title>Upgrading to K0rdent 0.2.0 - Documentation</title>
+        <title>Upgrading to k0rdent 0.2.0 - Documentation</title>
       
     
     
@@ -115,7 +115,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Upgrading to K0rdent 0.2.0
+              Upgrading to k0rdent 0.2.0
             
           </span>
         </div>
@@ -3073,24 +3073,24 @@
   
 
 
-<h1 id="upgrading-to-k0rdent-020">Upgrading to K0rdent 0.2.0<a class="headerlink" href="#upgrading-to-k0rdent-020" title="Permanent link">#</a></h1>
-<p>In K0rdent <code>0.2.0</code>, the <code>k0smotron</code> management component has been renamed to
+<h1 id="upgrading-to-k0rdent-020">Upgrading to k0rdent 0.2.0<a class="headerlink" href="#upgrading-to-k0rdent-020" title="Permanent link">#</a></h1>
+<p>In k0rdent 0.2.0, the <code>k0smotron</code> management component has been renamed to
 <code>cluster-api-provider-k0sproject-k0smotron</code>. To safely upgrade from <code>0.1.0</code> to <code>0.2.0</code>, follow the upgrade guide
 and perform the additional manual steps outlined below:</p>
 <ol>
 <li>
-<p>Follow <a href="../admin-upgrading-k0rdent/">Upgrading guide</a> and create a new Release object (steps 1-2)</p>
+<p>Follow the <a href="../admin-upgrading-k0rdent/">upgrading guide</a> and create a new <code>Release</code> object (steps 1-2).</p>
 </li>
 <li>
-<p>Verify the new Release status</p>
+<p>Verify the new <code>Release</code> status</p>
 </li>
 </ol>
-<p>Wait for the new Release to have <code>status.ready: true</code>. You can monitor it in a lifetime using this command:</p>
+<p>Wait for the new <code>Release</code> to have <code>status.ready: true</code>. You can monitor progress using this command:</p>
 <div class="highlight"><pre><span></span><code>```shell
 kubectl get release kcm-0-2-0 -o=jsonpath={.status.ready}
 ```
 
-An example of the succeeded response:
+When it succeeds, you will see:
 ```console
 true
 ```
@@ -3103,8 +3103,8 @@ kubectl<span class="w"> </span>-n<span class="w"> </span>kcm-system<span class="
 kubectl<span class="w"> </span>-n<span class="w"> </span>kcm-system<span class="w"> </span>delete<span class="w"> </span>bootstrapproviders.operator.cluster.x-k8s.io<span class="w"> </span>k0sproject-k0smotron
 </code></pre></div>
 <ol>
-<li>Instead of the step 3 from <a href="../admin-upgrading-k0rdent/">Upgrading guide</a> you need to perform an edit
-   of the <code>Management</code> object. Run:</li>
+<li>Instead of the step 3 from <a href="../admin-upgrading-k0rdent/">Upgrading guide</a> you need to edit
+   the <code>Management</code> object. Run:</li>
 </ol>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>edit<span class="w"> </span>managements.k0rdent.mirantis.com<span class="w"> </span>kcm
 </code></pre></div>
@@ -3137,7 +3137,7 @@ kubectl<span class="w"> </span>-n<span class="w"> </span>kcm-system<span class="
 <span class="w">  </span><span class="nt">release</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kcm-0-2-0</span>
 </code></pre></div>
 <ol>
-<li>Follow <a href="../admin-upgrading-k0rdent/">Upgrading guide</a> and verify the upgrade (step 4)</li>
+<li>Follow the <a href="../admin-upgrading-k0rdent/">Upgrading guide</a> and verify the upgrade (step 4).</li>
 </ol>
 
 
