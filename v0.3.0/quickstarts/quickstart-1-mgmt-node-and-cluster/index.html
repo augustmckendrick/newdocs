@@ -2334,6 +2334,8 @@
       
         
       
+        
+      
     
     
     
@@ -2370,6 +2372,27 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/backup/prepare-backups/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Preparing for Backup
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -3832,14 +3855,17 @@ chmod<span class="w"> </span><span class="m">700</span><span class="w"> </span>g
 </code></pre></div>
 <p>You should see output similar to:</p>
 <div class="highlight"><pre><span></span><code><span class="go">NAME                                   VALID</span>
-<span class="go">cluster-api-0-3-0                      true</span>
-<span class="go">cluster-api-provider-aws-0-2-1         true</span>
-<span class="go">cluster-api-provider-azure-0-2-2       true</span>
-<span class="go">cluster-api-provider-openstack-0-2-2   true</span>
-<span class="go">cluster-api-provider-vsphere-0-2-1     true</span>
-<span class="go">k0smotron-0-3-0                        true</span>
-<span class="go">kcm-0-3-0                              true</span>
-<span class="go">projectsveltos-0-52-2                  true</span>
+<span class="go">cluster-api-0-2-2                                 true</span>
+<span class="go">cluster-api-provider-aws-0-2-3                    true</span>
+<span class="go">cluster-api-provider-azure-0-2-4                  true</span>
+<span class="go">cluster-api-provider-docker-0-2-2                 true</span>
+<span class="go">cluster-api-provider-gcp-0-2-2                    true</span>
+<span class="go">cluster-api-provider-k0sproject-k0smotron-0-2-3   true</span>
+<span class="go">cluster-api-provider-openstack-0-2-2              true</span>
+<span class="go">cluster-api-provider-vsphere-0-2-2                true</span>
+<span class="go">k0smotron-0-2-3                                   true</span>
+<span class="go">kcm-0-3-0                                         true</span>
+<span class="go">projectsveltos-0-52-2                             true</span>
 </code></pre></div>
 <h2 id="verify-that-kcm-clustertemplate-objects-are-available">Verify that KCM ClusterTemplate objects are available<a class="headerlink" href="#verify-that-kcm-clustertemplate-objects-are-available" title="Permanent link">#</a></h2>
 <p>CAPI also requires control plane and bootstrap (worker node) providers to construct and/or manage different Kubernetes cluster distros and variants. Again, these providers are delivered and referenced within k0rdent using templates, instantiated in the management cluster as <code>ClusterTemplate</code> objects. Before continuing, verify that default <code>ClusterTemplate</code> objects are installed and valid:</p>
@@ -3847,7 +3873,7 @@ chmod<span class="w"> </span><span class="m">700</span><span class="w"> </span>g
 </code></pre></div>
 <p>You should see output similar to:</p>
 <div class="highlight"><pre><span></span><code><span class="go">NAME                            VALID</span>
-<span class="go">adopted-cluster-0-3-0           true</span>
+<span class="go">adopted-cluster-0-2-0           true</span>
 <span class="go">aws-eks-0-2-0                   true</span>
 <span class="go">aws-hosted-cp-0-2-1             true</span>
 <span class="go">aws-standalone-cp-0-2-1         true</span>
