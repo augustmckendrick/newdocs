@@ -1257,17 +1257,6 @@
         
       
       
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    IP Address Management (IPAM)
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1277,34 +1266,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#deploying-a-cluster-with-ipam" class="md-nav__link">
-    <span class="md-ellipsis">
-      Deploying a Cluster with IPAM
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
       
     </li>
   
@@ -3524,23 +3485,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#deploying-a-cluster-with-ipam" class="md-nav__link">
-    <span class="md-ellipsis">
-      Deploying a Cluster with IPAM
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -3571,35 +3515,39 @@
 
 
 <h1 id="ip-address-management-ipam">IP Address Management (IPAM)<a class="headerlink" href="#ip-address-management-ipam" title="Permanent link">#</a></h1>
-<p>k0rdent provides a flexible IP Address Management (IPAM) system that enables deterministic allocation of IP addresses throughout the cluster lifecycle.</p>
-<p>With IPAM enabled, IP addresses can be assigned to critical components such as:</p>
-<ul>
-<li>Control plane nodes</li>
-<li>Worker nodes</li>
-<li>Cluster-internal networks (for example, pod/service networks)</li>
-<li>External-facing resources (for example, load balancers, ingress)</li>
-</ul>
-<p>Administrators can define address ranges using either CIDR blocks or explicit IP lists, allowing for:</p>
+<p><code>k0rdent</code> provides a flexible IP Address Management (IPAM) system that enables deterministic allocation of IP addresses throughout the cluster lifecycle.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>At the moment <strong>only node network is supported</strong></p>
+</div>
+<p>With IPAM enabled, IP addresses can be assigned to both worker and control plane nodes.</p>
+<p>Administrators can define address ranges using either CIDR blocks or explicit IP lists, enabling:</p>
 <ul>
 <li>Predictable, conflict-free assignments</li>
 <li>Seamless integration with existing network topologies</li>
 <li>Fine-grained control in multi-tenant or segmented environments</li>
 </ul>
-<h2 id="deploying-a-cluster-with-ipam">Deploying a Cluster with IPAM<a class="headerlink" href="#deploying-a-cluster-with-ipam" title="Permanent link">#</a></h2>
-<p>Follow these steps to configure IPAM in your cluster deployment.</p>
-<ol>
-<li>
-<p>Prerequisites</p>
-<p>Before configuring IPAM ensure a valid, unused IP space is available (CIDR or static IP list). The reserved space must accommodate:</p>
+<h1 id="deploying-a-cluster-with-ipam">Deploying a Cluster with IPAM<a class="headerlink" href="#deploying-a-cluster-with-ipam" title="Permanent link">#</a></h1>
+<p>Follow these instructions to configure IPAM for your cluster deployment.</p>
+<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">#</a></h2>
+<p>Ensure the following before configuring IPAM:</p>
 <ul>
+<li>A valid, unused IP space is available (CIDR or static IP list).</li>
+<li>The reserved space must accommodate:<ul>
 <li>One IP per control plane node</li>
 <li>One IP per worker node</li>
 </ul>
 </li>
+</ul>
+<h2 id="define-ipam-configuration">Define IPAM configuration<a class="headerlink" href="#define-ipam-configuration" title="Permanent link">#</a></h2>
+<p>There are two options for configuring IPAM in k0rdent</p>
+<h3 id="option-1-use-mutual-references-in-clusterdeployment-and-clusteripamclaim">Option 1: Use mutual references in <code>ClusterDeployment</code> and <code>ClusterIPAMClaim</code><a class="headerlink" href="#option-1-use-mutual-references-in-clusterdeployment-and-clusteripamclaim" title="Permanent link">#</a></h3>
+<p>To use mutual references, follow these steps:</p>
+<ol>
 <li>
 <p>Define a <code>ClusterIPAMClaim</code></p>
-<p>Use the <code>ClusterIPAMClaim</code> resource to reserve IP address space required for the cluster. Each network segment—node, cluster, and external—can be defined using either a <code>cidr</code> or a static list of <code>ipaddresses</code>. For example:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">k0rdent.mirantis.com/v1alpha1</span>
+<p>The <code>ClusterIPAMClaim</code> resource reserves the required IP address space for the cluster. The node network segment can be defined using either a <code>cidr</code> or a static list of <code>ipAddresses</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">k0rdent.mirantis.com/v1beta1</span>
 <span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ClusterIPAMClaim</span>
 <span class="nt">metadata</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;claim-name&gt;</span>
@@ -3608,59 +3556,116 @@
 <span class="w">  </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;provider-name&gt;</span>
 <span class="w">  </span><span class="nt">nodeNetwork</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">cidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;cidr&gt;</span>
-<span class="w">    </span><span class="c1"># ipaddresses:</span>
+<span class="w">    </span><span class="c1"># ipAddresses:</span>
 <span class="w">    </span><span class="c1"># - &lt;ip-1&gt;</span>
 <span class="w">    </span><span class="c1"># - &lt;ip-2&gt;</span>
-<span class="w">  </span><span class="nt">clusterNetwork</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">cidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;cidr&gt;</span>
-<span class="w">  </span><span class="nt">externalNetwork</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">cidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;cidr&gt;</span>
-<span class="w">  </span><span class="nt">clusterDeploymentRef</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;cluster-name&gt;</span>
+<span class="w">  </span><span class="nt">cluster</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;cluster-name&gt;</span>
 </code></pre></div>
-<p>The <code>clusterDeploymentRef</code> field links this claim to a specific <code>ClusterDeployment</code>, ensuring IPs are reserved before the cluster is provisioned.</p>
+<ul>
+<li>The <code>cluster</code> field in <code>ClusterIPAMClaim</code> is immutable once set.</li>
+<li>The <code>cluster</code> field links the claim to a specific <code>ClusterDeployment</code>, ensuring IPs are reserved before provisioning begins.</li>
+</ul>
 </li>
 <li>
 <p>Apply the <code>ClusterIPAMClaim</code></p>
-<p>To submit the claim, run:</p>
+<p>To create the claim:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>&lt;cluster-ipam-claim-file&gt;.yaml
 </code></pre></div>
-<p>You can confirm the claim was created with:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>clusteripamclaim<span class="w"> </span>&lt;claim-name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+<p>To verify the claim:</p>
+<p><div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>clusteripamclaim<span class="w"> </span>&lt;claim-name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
 </code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">k0rdent.mirantis.com/v1beta1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ClusterIPAMClaim</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;claim-name&gt;</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;namespace&gt;</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">cluster</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;cluster-name&gt;</span>
+<span class="w">  </span><span class="nt">clusterIPAMRef</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;claim-name&gt;</span>
+<span class="w">  </span><span class="nt">nodeNetwork</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">cidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;cidr&gt;</span>
+<span class="w">    </span><span class="c1"># ipAddresses:</span>
+<span class="w">    </span><span class="c1"># - &lt;ip-1&gt;</span>
+<span class="w">    </span><span class="c1"># - &lt;ip-2&gt;</span>
+<span class="w">  </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;provider-name&gt;</span>
+<span class="nt">status</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">bound</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</code></pre></div></p>
+<ul>
+<li><code>.spec.clusterIPAMRef</code>: If this field is set, it indicates that the child <code>ClusterIPAM</code> object was successfully created.</li>
+<li><code>.status.bound</code>: If <code>true</code>, it means the child <code>ClusterIPAM</code> was successfully reconciled and the defined addresses were allocated.</li>
+</ul>
 </li>
 <li>
-<p>(Alternative) Inline IPAM in <code>ClusterDeployment</code></p>
-<p>You can also define IPAM directly in the <code>ClusterDeployment</code> resource:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">k0rdent.mirantis.com/v1alpha1</span>
+<p>Define a <code>ClusterDeployment</code></p>
+<p>Finally, define the <code>ClusterDeployment</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">k0rdent.mirantis.com/v1beta1</span>
 <span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ClusterDeployment</span>
 <span class="nt">metadata</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;cluster-name&gt;</span>
-<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;kcm-system-namespace&gt;</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;namespace&gt;</span>
 <span class="nt">spec</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;template-name&gt;</span>
 <span class="w">  </span><span class="nt">credential</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;provider-credential-name&gt;</span>
 <span class="w">  </span><span class="nt">dryRun</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;&quot;true&quot; | &quot;false&quot;&gt;</span><span class="w">  </span><span class="c1"># Optional; defaults to &quot;false&quot;</span>
 <span class="w">  </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">&lt;cluster-configuration&gt;</span>
-<span class="w">  </span><span class="nt">ipam</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;provider-name&gt;</span>
-<span class="w">    </span><span class="nt">nodeNetwork</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">cidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;cidr&gt;</span>
-<span class="w">      </span><span class="c1"># ipaddresses:</span>
-<span class="w">      </span><span class="c1"># - &lt;ip-1&gt;</span>
-<span class="w">      </span><span class="c1"># - &lt;ip-2&gt;</span>
-<span class="w">    </span><span class="nt">clusterNetwork</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">cidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;cidr&gt;</span>
-<span class="w">    </span><span class="nt">externalNetwork</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">cidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;cidr&gt;</span>
+<span class="w">  </span><span class="nt">ipamClaim</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">ref</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;claim-name&gt;</span>
+</code></pre></div>
+</li>
+</ol>
+<h3 id="option-2-use-inline-ipam-configuration-in-clusterdeployment">Option 2: Use inline IPAM configuration in <code>ClusterDeployment</code><a class="headerlink" href="#option-2-use-inline-ipam-configuration-in-clusterdeployment" title="Permanent link">#</a></h3>
+<p>The IPAM configuration can also be defined inline within the <code>ClusterDeployment</code> resource as follows:</p>
+<ol>
+<li>
+<p>Define a <code>ClusterDeployment</code></p>
+<p>First, define the <code>ClusterDeployment</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">k0rdent.mirantis.com/v1beta1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ClusterDeployment</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;cluster-name&gt;</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;namespace&gt;</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;template-name&gt;</span>
+<span class="w">  </span><span class="nt">credential</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;provider-credential-name&gt;</span>
+<span class="w">  </span><span class="nt">dryRun</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;&quot;true&quot; | &quot;false&quot;&gt;</span><span class="w">  </span><span class="c1"># Optional; defaults to &quot;false&quot;</span>
+<span class="w">  </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">&lt;cluster-configuration&gt;</span>
+<span class="w">  </span><span class="nt">ipamClaim</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;provider-name&gt;</span>
+<span class="w">      </span><span class="nt">nodeNetwork</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">cidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;cidr&gt;</span>
+<span class="w">        </span><span class="c1"># ipAddresses:</span>
+<span class="w">        </span><span class="c1"># - &lt;ip-1&gt;</span>
+<span class="w">        </span><span class="c1"># - &lt;ip-2&gt;</span>
 </code></pre></div>
 </li>
 <li>
-<p>Deploy the Cluster</p>
-<p>To deploy the cluster with IPAM configured:</p>
+<p>Apply the <code>ClusterDeployment</code>:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>&lt;cluster-deployment-file&gt;.yaml
 </code></pre></div>
-<p>The specified IPAM settings will be used to allocate IP addresses during provisioning.</p>
+</li>
+<li>
+<p>Verify IPAM</p>
+<p>The specified IPAM settings will be used to allocate IP addresses during provisioning. Keep in mind that cluster provisioning will not proceed until IPAM resources are ready and addresses are allocated.</p>
+<p>To inspect the resulting <code>ClusterIPAM</code> resource:</p>
+<p><div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>ClusterIPAM<span class="w"> </span>&lt;claim-name&gt;
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">k0rdent.mirantis.com/v1beta1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ClusterIPAM</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;cluster-ipam-name&gt;</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;namespace&gt;</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;provider-name&gt;</span>
+<span class="w">  </span><span class="nt">clusterIPAMClaimRefs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;cluster-ipam-claim-name&gt;</span>
+<span class="nt">status</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">phase</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Bound</span>
+<span class="w">  </span><span class="nt">providerData</span><span class="p">:</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">&lt;provider data&gt;</span>
+</code></pre></div></p>
 </li>
 </ol>
 
