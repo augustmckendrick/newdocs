@@ -10,9 +10,9 @@ a `Region` object.
 
 * `spec.kubeConfig`
 
-Reference to the Secret containing the kubeconfig of the cluster being onboarded as a regional
-cluster. The Secret must reside in the system namespace (default: `kcm-system`). Must specify both the `name`
-of the Secret and the `key` where the kubeconfig content is stored. Required.
+Reference to the `Secret` containing the kubeconfig of the cluster being onboarded as a regional
+cluster. The `Secret` must reside in the system namespace (default: `kcm-system`). Must specify both the `name`
+of the `Secret` and the `key` where the kubeconfig content is stored. Required.
 
 * `spec.core`
 
@@ -103,14 +103,14 @@ spec:
 
 ## After the Region is Created
 
-Once the Region object is created:
+Once the `Region` object is created:
 
 * The regional core components and enabled providers start installing on the regional cluster automatically.
-* You can monitor the Region’s status and readiness using `kubectl wait`, for example:
+* You can monitor the `Region`'s status and readiness using `kubectl wait`, for example:
 
 ```bash
 kubectl wait --for=condition=Ready=True region/<region-name>
 ```
 
-Once the Region is ready, you can start creating `Credentials` and deploy clusters in that region. See:
+Once the `Region` is ready, you can start creating `Credentials` and deploy clusters in that region. See:
 [Creating Credential in Region](creating-credential-in-region.md).

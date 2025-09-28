@@ -1,29 +1,29 @@
 # Creating a Credential in a Region
 
-Once a Region is deployed and ready, you can proceed with Credential configuration.
+Once a `Region` is deployed and ready, you can proceed with `Credential` configuration.
 
 Credentials are required for {{{ docsVersionInfo.k0rdentName }}} to communicate with the infrastructure provider
-(e.g., AWS, Azure, vSphere). They enable provisioning of resources such as virtual machines, networking components,
+(for example, AWS, Azure, or vSphere). They enable provisioning of resources such as virtual machines, networking components,
 and storage.
 
-The Credential `spec` has been extended with a `region` field, which specifies the Region in which the Credential
-applies. This is the only place where the region is configured. When `spec.region` is set, any ClusterDeployment
-referencing this Credential will be deployed to the corresponding regional cluster.
+The `Credential` `spec` has been extended with a `region` field, which specifies the `Region` in which the `Credential`
+applies. This is the only place where the region is configured. When `spec.region` is set, any `ClusterDeployment`
+referencing this `Credential` will be deployed to the corresponding regional cluster.
 
 > NOTE:
-> Each Credential maps 1:1 to a Region. If `spec.region` is empty, the Credential is tied to the management cluster.
+> Each `Credential` maps 1:1 to a Region. If `spec.region` is empty, the `Credential` is tied to the management cluster.
 
 ## Creating Cluster Identity objects
 
 > WARNING:
-> ClusterIdentity resources and the resource template ConfigMap must be created in the regional cluster.
+> `ClusterIdentity` resources and the resource template `ConfigMap` must be created in the regional cluster.
 
-Depending on the provider, you need to create Cluster Identity resources to allow provider components to interact
+Depending on the provider, you need to create `ClusterIdentity` resources to allow provider components to interact
 with the cloud. This should be done using the regional cluster kubeconfig.
 
 ### Example: AWS
 
-1. Create the Secret with AWS cloud credential in the regional cluster
+1. Create the `Secret` with AWS cloud credential in the regional cluster
 
     Create a YAML file called `aws-cluster-identity-secret.yaml` and add the following text, replacing the
 `EXAMPLE_ACCESS_KEY_ID` and `EXAMPLE_SECRET_ACCESS_KEY` with corresponding cloud values:
@@ -88,7 +88,7 @@ with the cloud. This should be done using the regional cluster kubeconfig.
        projectsveltos.io/template: "true"
    ```
 
-   Note that `ConfigMap` is empty, this is expected, we don't need to template any object inside child cluster(s), but we can use that object in the future if need arises.
+   Note that `ConfigMap` is empty. This is expected, as we don't need to template any object inside the child cluster(s), but we can use that object in the future if need arises.
 
    Apply the YAML to your regional cluster:
 
@@ -96,17 +96,17 @@ with the cloud. This should be done using the regional cluster kubeconfig.
    kubectl apply -f aws-cluster-identity-resource-template.yaml -n kcm-system --kubeconfig <path-to-regional-cluster-kubeconfig>
    ```
 
-## Creating Credential
+## Creating the Credential
 
 > WARNING:
-> Credential should be created in the Management cluster
+> Create the `Credential` in the Management cluster
 
-After configuring Cluster Identity objects, create the `Credential` in the management cluster, referencing the
-Cluster Identity:
+After configuring `ClusterIdentity` objects, create the `Credential` in the management cluster, referencing the
+`ClusterIdentity`:
 
-The Credential should be created in the same namespace as the previously created Cluster Identity objects.
-The `spec.region` should be configured and refer the name of the Region object that points to the cluster where the
-Cluster Identity resources have been created:
+The `Credential` should be created in the same namespace as the previously created `ClusterIdentity` objects.
+The `spec.region` should be configured and refer to the name of the `Region` object that points to the cluster where the
+`ClusterIdentity` resources have been created:
 
 ```yaml
 apiVersion: k0rdent.mirantis.com/v1beta1
@@ -140,7 +140,7 @@ kubectl get credential -n kcm-system aws-cluster-identity-cred
 
 and check the `READY` column.
 
-For the detailed information about Credential readiness, run:
+For the detailed information about `Credential` readiness, run:
 
 ```bash
 kubectl get credential -n kcm-system aws-cluster-identity-cred -o=yaml
@@ -162,8 +162,8 @@ status:
    ready: false
 ```
 
-This usually indicates that either the provider is not enabled in the specified Region, or provider deployment failed.
-Double-check the Region spec for required provider presence and status for any issues.
+This usually indicates that either the provider is not enabled in the specified `Region`, or provider deployment failed.
+Double-check the `Region` spec for required provider presence and status for any issues.
 
 Example of a ready status:
 
@@ -179,8 +179,8 @@ status:
   ready: true
 ```
 
-To get more details about Credential usage, follow the instructions in the [Credential System](../access/credentials/index.md).
+To get more details about `Credential` usage, follow the instructions in the [Credential System](../access/credentials/index.md).
 For other providers, see the specific credential setup instructions for your
 [target infrastructure](../installation/prepare-mgmt-cluster/index.md).
 
-Once the Credential is ready, you can proceed with [Deploying Clusters in Region](deploying-clusters-in-region.md).
+Once the `Credential` is ready, you can proceed with [Deploying Clusters in a `Region`](deploying-clusters-in-region.md).

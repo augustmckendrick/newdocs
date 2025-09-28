@@ -7,16 +7,16 @@
 > There are some limitations in deploying regional clusters, which will be addressed in upcoming
 > {{{ docsVersionInfo.k0rdentName }}} releases:
 >
-> * Automated credential distribution is not yet supported. You must manually create the corresponding ClusterIdentity
+> * Automated credential distribution is not yet supported. You must manually create the corresponding `ClusterIdentity`
 > objects (e.g., `Secrets`, `AWSClusterIdentity`) on each regional cluster.
-> * The kubeconfig Secret must exist in the system namespace (default: `kcm-system`) when registering a new region.
+> * The kubeconfig `Secret` must exist in the system namespace (default: `kcm-system`) when registering a new region.
 
 To improve isolation, {{{ docsVersionInfo.k0rdentName }}} introduces the concept of regional clusters. This allows
 cluster workloads to be hosted separately from the management cluster.
 
 A regional cluster is a separate cluster where user workloads and provider-related infrastructure (such as CAPI
 providers, clusters, and machines) are deployed. The management cluster remains the single pane of glass, responsible
-for managing ClusterDeployments, Credentials, Templates, and other {{{ docsVersionInfo.k0rdentName }}} resources.
+for managing `ClusterDeployment`, `Credential`, `Template`, and other {{{ docsVersionInfo.k0rdentName }}} resources.
 
 Regional clusters provide several benefits:
 
